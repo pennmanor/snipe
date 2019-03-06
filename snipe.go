@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	defaultLimit = "20"
+	defaultLimit = "2000"
 )
 
 type Snipe struct {
