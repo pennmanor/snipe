@@ -1,0 +1,1 @@
+Snipe API interactions written in Go
