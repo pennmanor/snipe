@@ -84,3 +84,11 @@ type Assets struct {
 	Total int     `json:"total"`
 	Rows  []Asset `json:"rows"`
 }
+
+type Checkin struct {
+	Status		string	`json:"status"`
+	Messages	string	`json:"messages"`
+	Payload	struct {
+		Asset	string	`json:"asset"`
+	}
+}

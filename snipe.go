@@ -124,6 +124,24 @@ func (s *Snipe) GetAssets(params AssetQueryParams) (*Assets, error) {
 
 }
 
+func (s *Snipe) CheckinAsset(assetID string) (*Checkin, error) {
+	var r = new(Checkin)
+
+	url := fmt.Sprintf("%+v/api/v1/hardware/%+v/checkin", s.Server, assetID)
+
+	req, _ := http.NewRequest("POST", url, nil)
+	resp, err := s.Client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.NewDecoder(resp.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
 type snipeAgentTransport struct {
 	apikey string
 	base   http.RoundTripper
