@@ -85,10 +85,157 @@ type Assets struct {
 	Rows  []Asset `json:"rows"`
 }
 
+type Checkout struct {
+	Status		string	`json:"status"`
+	Messages	string	`json:"messages"`
+	Payload	struct {
+		Asset	string	`json:"asset"`
+	}
+}
+
 type Checkin struct {
 	Status		string	`json:"status"`
 	Messages	string	`json:"messages"`
 	Payload	struct {
 		Asset	string	`json:"asset"`
 	}
+}
+
+type Users struct {
+	Total int     `json:"total"`
+	Rows  []User `json:"rows"`
+}
+
+type User struct {
+	ID          int         `json:"id"`
+	Avatar      string      `json:"avatar"`
+	Name        string      `json:"name"`
+	FirstName   string      `json:"first_name"`
+	LastName    string      `json:"last_name"`
+	Username    string      `json:"username"`
+	EmployeeNum string      `json:"employee_num"`
+	Manager     interface{} `json:"manager"`
+	Jobtitle    interface{} `json:"jobtitle"`
+	Phone       interface{} `json:"phone"`
+	Address     interface{} `json:"address"`
+	City        interface{} `json:"city"`
+	State       interface{} `json:"state"`
+	Country     interface{} `json:"country"`
+	Zip         interface{} `json:"zip"`
+	Email       string      `json:"email"`
+	Department  interface{} `json:"department"`
+	Location    struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"location"`
+	Notes       string `json:"notes"`
+	Permissions struct {
+		Superuser             string `json:"superuser"`
+		Admin                 string `json:"admin"`
+		ReportsView           string `json:"reports.view"`
+		AssetsView            string `json:"assets.view"`
+		AssetsCreate          string `json:"assets.create"`
+		AssetsEdit            string `json:"assets.edit"`
+		AssetsDelete          string `json:"assets.delete"`
+		AssetsCheckin         string `json:"assets.checkin"`
+		AssetsCheckout        string `json:"assets.checkout"`
+		AssetsAudit           string `json:"assets.audit"`
+		AssetsViewRequestable string `json:"assets.view.requestable"`
+		AccessoriesView       string `json:"accessories.view"`
+		AccessoriesCreate     string `json:"accessories.create"`
+		AccessoriesEdit       string `json:"accessories.edit"`
+		AccessoriesDelete     string `json:"accessories.delete"`
+		AccessoriesCheckout   string `json:"accessories.checkout"`
+		AccessoriesCheckin    string `json:"accessories.checkin"`
+		ConsumablesView       string `json:"consumables.view"`
+		ConsumablesCreate     string `json:"consumables.create"`
+		ConsumablesEdit       string `json:"consumables.edit"`
+		ConsumablesDelete     string `json:"consumables.delete"`
+		ConsumablesCheckout   string `json:"consumables.checkout"`
+		LicensesView          string `json:"licenses.view"`
+		LicensesCreate        string `json:"licenses.create"`
+		LicensesEdit          string `json:"licenses.edit"`
+		LicensesDelete        string `json:"licenses.delete"`
+		LicensesCheckout      string `json:"licenses.checkout"`
+		LicensesKeys          string `json:"licenses.keys"`
+		ComponentsView        string `json:"components.view"`
+		ComponentsCreate      string `json:"components.create"`
+		ComponentsEdit        string `json:"components.edit"`
+		ComponentsDelete      string `json:"components.delete"`
+		ComponentsCheckout    string `json:"components.checkout"`
+		ComponentsCheckin     string `json:"components.checkin"`
+		UsersView             string `json:"users.view"`
+		UsersCreate           string `json:"users.create"`
+		UsersEdit             string `json:"users.edit"`
+		UsersDelete           string `json:"users.delete"`
+		ModelsView            string `json:"models.view"`
+		ModelsCreate          string `json:"models.create"`
+		ModelsEdit            string `json:"models.edit"`
+		ModelsDelete          string `json:"models.delete"`
+		CategoriesView        string `json:"categories.view"`
+		CategoriesCreate      string `json:"categories.create"`
+		CategoriesEdit        string `json:"categories.edit"`
+		CategoriesDelete      string `json:"categories.delete"`
+		DepartmentsView       string `json:"departments.view"`
+		DepartmentsCreate     string `json:"departments.create"`
+		DepartmentsEdit       string `json:"departments.edit"`
+		DepartmentsDelete     string `json:"departments.delete"`
+		StatuslabelsView      string `json:"statuslabels.view"`
+		StatuslabelsCreate    string `json:"statuslabels.create"`
+		StatuslabelsEdit      string `json:"statuslabels.edit"`
+		StatuslabelsDelete    string `json:"statuslabels.delete"`
+		CustomfieldsView      string `json:"customfields.view"`
+		CustomfieldsCreate    string `json:"customfields.create"`
+		CustomfieldsEdit      string `json:"customfields.edit"`
+		CustomfieldsDelete    string `json:"customfields.delete"`
+		SuppliersView         string `json:"suppliers.view"`
+		SuppliersCreate       string `json:"suppliers.create"`
+		SuppliersEdit         string `json:"suppliers.edit"`
+		SuppliersDelete       string `json:"suppliers.delete"`
+		ManufacturersView     string `json:"manufacturers.view"`
+		ManufacturersCreate   string `json:"manufacturers.create"`
+		ManufacturersEdit     string `json:"manufacturers.edit"`
+		ManufacturersDelete   string `json:"manufacturers.delete"`
+		DepreciationsView     string `json:"depreciations.view"`
+		DepreciationsCreate   string `json:"depreciations.create"`
+		DepreciationsEdit     string `json:"depreciations.edit"`
+		DepreciationsDelete   string `json:"depreciations.delete"`
+		LocationsView         string `json:"locations.view"`
+		LocationsCreate       string `json:"locations.create"`
+		LocationsEdit         string `json:"locations.edit"`
+		LocationsDelete       string `json:"locations.delete"`
+		CompaniesView         string `json:"companies.view"`
+		CompaniesCreate       string `json:"companies.create"`
+		CompaniesEdit         string `json:"companies.edit"`
+		CompaniesDelete       string `json:"companies.delete"`
+		SelfTwoFactor         string `json:"self.two_factor"`
+		SelfAPI               string `json:"self.api"`
+		SelfEditLocation      string `json:"self.edit_location"`
+	} `json:"permissions"`
+	Activated          bool `json:"activated"`
+	TwoFactorActivated bool `json:"two_factor_activated"`
+	AssetsCount        int  `json:"assets_count"`
+	LicensesCount      int  `json:"licenses_count"`
+	AccessoriesCount   int  `json:"accessories_count"`
+	ConsumablesCount   int  `json:"consumables_count"`
+	Company            struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"company"`
+	CreatedAt struct {
+		Datetime  string `json:"datetime"`
+		Formatted string `json:"formatted"`
+	} `json:"created_at"`
+	UpdatedAt struct {
+		Datetime  string `json:"datetime"`
+		Formatted string `json:"formatted"`
+	} `json:"updated_at"`
+	LastLogin        interface{} `json:"last_login"`
+	AvailableActions struct {
+		Update  bool `json:"update"`
+		Delete  bool `json:"delete"`
+		Clone   bool `json:"clone"`
+		Restore bool `json:"restore"`
+	} `json:"available_actions"`
+	Groups interface{} `json:"groups"`
 }

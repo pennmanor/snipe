@@ -124,6 +124,42 @@ func (s *Snipe) GetAssets(params AssetQueryParams) (*Assets, error) {
 
 }
 
+func (s *Snipe) GetAssetByTag(assetTag string) (*Asset, error) {
+	var r = new(Asset)
+
+	url := fmt.Sprintf("%+v/api/v1/hardware/bytag/%+v", s.Server, assetTag)
+
+	req, _ := http.NewRequest("GET", url, nil)
+	resp, err := s.Client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.NewDecoder(resp.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
+func (s *Snipe) CheckoutAsset(assetID string, userID string) (*Checkout, error) {
+	var r = new(Checkout)
+
+	url := fmt.Sprintf("%+v/api/v1/hardware/%+v/checkout?checkout_to_type=user&assigned_user=%+v", s.Server, assetID, userID)
+
+	req, _ := http.NewRequest("POST", url, nil)
+	resp, err := s.Client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.NewDecoder(resp.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
 func (s *Snipe) CheckinAsset(assetID string) (*Checkin, error) {
 	var r = new(Checkin)
 
@@ -140,6 +176,24 @@ func (s *Snipe) CheckinAsset(assetID string) (*Checkin, error) {
 	}
 
 	return r, nil
+}
+
+func (s *Snipe) GetUserByUsername(username string) (*User, error) {
+	var r = new(Users)
+
+	url := fmt.Sprintf("%+v/api/v1/users?search=%+v", s.Server, username)
+
+	req, _ := http.NewRequest("GET", url, nil)
+	resp, err := s.Client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.NewDecoder(resp.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+
+	return &r.Rows[0], nil
 }
 
 type snipeAgentTransport struct {
