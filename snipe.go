@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+//	"bytes"
+//	"strings"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -170,9 +172,21 @@ func (s *Snipe) CheckinAsset(assetID string) (*Checkin, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
+/*
+	// check if there was an error
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(resp.Body)
+	html := buf.String()
+
+	if strings.Contains(html, "We could not find the page you were looking for.") {
+		message = "Cannot find asset"
+		return r, message
+	}
+*/
+	// read the json response
 	err = json.NewDecoder(resp.Body).Decode(r)
 	if err != nil {
-		return nil, err
+		return r, err
 	}
 
 	return r, nil
