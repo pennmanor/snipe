@@ -239,3 +239,49 @@ type User struct {
 	} `json:"available_actions"`
 	Groups interface{} `json:"groups"`
 }
+
+type Activity struct {
+	Total int `json:"total"`
+	Rows  []struct {
+		ID   int         `json:"id"`
+		Icon string      `json:"icon"`
+		File interface{} `json:"file"`
+		Item struct {
+			ID   int    `json:"id"`
+			Name string `json:"name"`
+			Type string `json:"type"`
+		} `json:"item"`
+		Location struct {
+			ID   int    `json:"id"`
+			Name string `json:"name"`
+		} `json:"location"`
+		CreatedAt struct {
+			Datetime  string `json:"datetime"`
+			Formatted string `json:"formatted"`
+		} `json:"created_at"`
+		UpdatedAt struct {
+			Datetime  string `json:"datetime"`
+			Formatted string `json:"formatted"`
+		} `json:"updated_at"`
+		NextAuditDate struct {
+			Date      string `json:"date"`
+			Formatted string `json:"formatted"`
+		} `json:"next_audit_date"`
+		DaysToNextAudit int    `json:"days_to_next_audit"`
+		ActionType      string `json:"action_type"`
+		Admin           struct {
+			ID        int    `json:"id"`
+			Name      string `json:"name"`
+			FirstName string `json:"first_name"`
+			LastName  string `json:"last_name"`
+		} `json:"admin"`
+		Target struct {
+			ID   int    `json:"id"`
+			Name string `json:"name"`
+			Type string `json:"type"`
+		} `json:"target"`
+		Note          interface{} `json:"note"`
+		SignatureFile interface{} `json:"signature_file"`
+		LogMeta       interface{} `json:"log_meta"`
+	} `json:"rows"`
+}

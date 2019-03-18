@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-//	"bytes"
-//	"strings"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -144,6 +142,42 @@ func (s *Snipe) GetAssetByTag(assetTag string) (*Asset, error) {
 	return r, nil
 }
 
+func (s *Snipe) GetUserHistory(itemID string) (*Activity, error) {
+	var r = new(Activity)
+
+	url := fmt.Sprintf("%+v/api/v1/reports/activity?target_id=%+v&target_type=user", s.Server, itemID)
+
+	req, _ := http.NewRequest("GET", url, nil)
+	resp, err := s.Client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.NewDecoder(resp.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
+func (s *Snipe) GetAssetHistory(itemID string) (*Activity, error) {
+	var r = new(Activity)
+
+	url := fmt.Sprintf("%+v/api/v1/reports/activity?item_id=%+v&item_type=asset", s.Server, itemID)
+
+	req, _ := http.NewRequest("GET", url, nil)
+	resp, err := s.Client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.NewDecoder(resp.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
 func (s *Snipe) CheckoutAsset(assetID string, userID string) (*Checkout, error) {
 	var r = new(Checkout)
 
@@ -172,17 +206,7 @@ func (s *Snipe) CheckinAsset(assetID string) (*Checkin, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-/*
-	// check if there was an error
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(resp.Body)
-	html := buf.String()
 
-	if strings.Contains(html, "We could not find the page you were looking for.") {
-		message = "Cannot find asset"
-		return r, message
-	}
-*/
 	// read the json response
 	err = json.NewDecoder(resp.Body).Decode(r)
 	if err != nil {
@@ -270,10 +294,11 @@ func (s *Snipe) GetUsers(params AssetQueryParams) (*Users, error) {
 
 }
 
-func (s *Snipe) GetUserByUsername(username string) (*User, error) {
+func (s *Snipe) GetUser(query string) (*User, error) {
+	// return only 1 user, even if multiple users are found. Use GetUsers for complete results
 	var r = new(Users)
 
-	url := fmt.Sprintf("%+v/api/v1/users?search=%+v", s.Server, username)
+	url := fmt.Sprintf("%+v/api/v1/users?search=%+v", s.Server, query)
 
 	req, _ := http.NewRequest("GET", url, nil)
 	resp, err := s.Client.Do(req)
