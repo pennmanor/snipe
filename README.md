@@ -1,24 +1,47 @@
 # Overview
 
-This is a demo of interacting with the snipe api. The snipe api documentation is
+This package is intended to provide a mechanism for interacting with the snipe api. The snipe api documentation is
 available [here](https://snipe-it.readme.io/reference#api-overview) with examples
 in php, python, javascript, etc.
 
-This particular demo is in golang.
+## Getting Started
 
-## Starting Point
+To use this package, the following code may prove helpful. 
 
-Starting at line [132](https://gitlab.pennmanor.net/district/snipe-api-demo/blob/master/main.go#L131) you can see a
-call a function to get a list of loaners and then loop over them. The getLoaners() function starts on line 65 is only
-about 20ish lines with error checking. 
+    var {
+        apiKey = "<your Snipe-IT api key>"
+        snipeServer = "<your snipe server address>"
+    }
 
-Most of the other code is boilerplate stuff to start a webserver, setup routes, render templates.
+    type snipeAgentTransport struct {
+        apiKey string
+        base   http.RoundTripper
+    }
 
-## Note on calling our instance of the snipe API
+    // within your function:
+    s := &snipe.Snipe{Key: snipeAPIKey, Server: snipeServer, Client: &http.Client{Transport: snipeAgentTransport{
+        apiKey: snipeAPIKey,
+        base:   http.DefaultTransport,
+    }}}
 
-One catch with our instance of snipe is that it is behind a google identiy aware proxy. That means
-these calls can't directly hit our snipe URL's from outside of the server cluster. 
+    assets, err := s.GetAssets(snipe.AssetQueryParams{"search": query})
+    if err != nil {
+        log.Fatal(err)
+    }
 
-To test this I have been using port forwarding to access the container directly. It is really easy to setup and I can
-create service accoutns for anyone who needs access.
+    // you should now have a variable "assets" that is a struct with Rows[] of individual snipe.Asset structs.
 
+
+
+## Methods
+
+The following methods are available.
+
+* snipe.GetAssets		- get a list of assets
+* snipe.GetAssetByTag		- get a single asset using an asset tag
+* snipe.CheckoutAsset		- checkout an asset to a user
+* snipe.CheckinAsset		- checkin (return) an asset
+* snipe.GetAssetHistory		- get the checkin-checkout history of an asset
+* snipe.GetUsers		- get a list of users
+* snipe.GetUser			- get one and only one user
+* snipe.GetUserHistory		- get the checkin-checkout history of a user
