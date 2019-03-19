@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -43,6 +44,12 @@ func makeQueryFromMap(params map[string]string) string {
 		r += fmt.Sprintf("%+v=%+v", url.QueryEscape(k), url.QueryEscape(v))
 	}
 
+	return r
+}
+
+func makeQueryFromString(text string) string {
+        textWords := strings.Fields(text)
+	r := strings.Join(textWords[:], "+")
 	return r
 }
 
@@ -178,6 +185,24 @@ func (s *Snipe) GetAssetHistory(itemID string) (*Activity, error) {
 	return r, nil
 }
 
+func (s *Snipe) GetUserCurrentAssets(userID string) (*AssetList, error) {
+	var r = new(AssetList)
+
+	url := fmt.Sprintf("%+v/api/v1/users/%v/assets", s.Server, userID)
+
+	req, _ := http.NewRequest("GET", url, nil)
+	resp, err := s.Client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.NewDecoder(resp.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
 func (s *Snipe) CheckoutAsset(assetID string, userID string) (*Checkout, error) {
 	var r = new(Checkout)
 
@@ -298,7 +323,9 @@ func (s *Snipe) GetUser(query string) (*User, error) {
 	// return only 1 user, even if multiple users are found. Use GetUsers for complete results
 	var r = new(Users)
 
-	url := fmt.Sprintf("%+v/api/v1/users?search=%+v", s.Server, query)
+	validQuery := makeQueryFromString(query)
+
+	url := fmt.Sprintf("%+v/api/v1/users?search=%v", s.Server, validQuery)
 
 	req, _ := http.NewRequest("GET", url, nil)
 	resp, err := s.Client.Do(req)
@@ -310,7 +337,10 @@ func (s *Snipe) GetUser(query string) (*User, error) {
 		return nil, err
 	}
 
-	return &r.Rows[0], nil
+	var user = new(User)
+	user = &r.Rows[0]
+
+	return user, nil
 }
 
 type snipeAgentTransport struct {
