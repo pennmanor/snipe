@@ -35,20 +35,28 @@ func makeQueryFromMap(params map[string]string) string {
 
 	for k, v := range params {
 
+		v = makeQueryFromString(v)
+
 		if !first {
 			r += "&"
 		} else {
 			first = false
 		}
 
-		r += fmt.Sprintf("%+v=%+v", url.QueryEscape(k), url.QueryEscape(v))
+		r += fmt.Sprintf("%+v=%+v", url.QueryEscape(k), v)
 	}
 
 	return r
 }
 
 func makeQueryFromString(text string) string {
+
         textWords := strings.Fields(text)
+
+	for i, word := range textWords {
+		textWords[i] = url.QueryEscape(word)
+	}
+
 	r := strings.Join(textWords[:], "+")
 	return r
 }
