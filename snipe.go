@@ -51,7 +51,7 @@ func makeQueryFromMap(params map[string]string) string {
 
 func makeQueryFromString(text string) string {
 
-        textWords := strings.Fields(text)
+	textWords := strings.Fields(text)
 
 	for i, word := range textWords {
 		textWords[i] = url.QueryEscape(word)
@@ -157,8 +157,8 @@ func (s *Snipe) GetAssetByTag(assetTag string) (*Asset, error) {
 	return r, nil
 }
 
-func (s *Snipe) GetUserHistory(itemID string) (*Activity, error) {
-	var r = new(Activity)
+func (s *Snipe) GetUserHistory(itemID int) (*Activities, error) {
+	var r = new(Activities)
 
 	url := fmt.Sprintf("%+v/api/v1/reports/activity?target_id=%+v&target_type=user", s.Server, itemID)
 
@@ -175,8 +175,8 @@ func (s *Snipe) GetUserHistory(itemID string) (*Activity, error) {
 	return r, nil
 }
 
-func (s *Snipe) GetAssetHistory(itemID string) (*Activity, error) {
-	var r = new(Activity)
+func (s *Snipe) GetAssetHistory(itemID int) (*Activities, error) {
+	var r = new(Activities)
 
 	url := fmt.Sprintf("%+v/api/v1/reports/activity?item_id=%+v&item_type=asset", s.Server, itemID)
 
@@ -193,8 +193,8 @@ func (s *Snipe) GetAssetHistory(itemID string) (*Activity, error) {
 	return r, nil
 }
 
-func (s *Snipe) GetUserCurrentAssets(userID string) (*AssetList, error) {
-	var r = new(AssetList)
+func (s *Snipe) GetUserCurrentAssets(userID int) (*Assets, error) {
+	var r = new(Assets)
 
 	url := fmt.Sprintf("%+v/api/v1/users/%v/assets", s.Server, userID)
 
@@ -211,7 +211,7 @@ func (s *Snipe) GetUserCurrentAssets(userID string) (*AssetList, error) {
 	return r, nil
 }
 
-func (s *Snipe) CheckoutAsset(assetID string, userID string) (*Checkout, error) {
+func (s *Snipe) CheckoutAsset(assetID int, userID int) (*Checkout, error) {
 	var r = new(Checkout)
 
 	url := fmt.Sprintf("%+v/api/v1/hardware/%+v/checkout?checkout_to_type=user&assigned_user=%+v", s.Server, assetID, userID)
@@ -229,7 +229,7 @@ func (s *Snipe) CheckoutAsset(assetID string, userID string) (*Checkout, error) 
 	return r, nil
 }
 
-func (s *Snipe) CheckinAsset(assetID string) (*Checkin, error) {
+func (s *Snipe) CheckinAsset(assetID int) (*Checkin, error) {
 	var r = new(Checkin)
 
 	url := fmt.Sprintf("%+v/api/v1/hardware/%+v/checkin", s.Server, assetID)
@@ -327,13 +327,11 @@ func (s *Snipe) GetUsers(params AssetQueryParams) (*Users, error) {
 
 }
 
-func (s *Snipe) GetUser(query string) (*User, error) {
-	// return only 1 user, even if multiple users are found. Use GetUsers for complete results
-	var r = new(Users)
+func (s *Snipe) GetUser(userID int) (*User, error) {
 
-	validQuery := makeQueryFromString(query)
+	var r = new(User)
 
-	url := fmt.Sprintf("%+v/api/v1/users?search=%v", s.Server, validQuery)
+	url := fmt.Sprintf("%+v/api/v1/users/%v", s.Server, userID)
 
 	req, _ := http.NewRequest("GET", url, nil)
 	resp, err := s.Client.Do(req)
@@ -345,10 +343,7 @@ func (s *Snipe) GetUser(query string) (*User, error) {
 		return nil, err
 	}
 
-	var user = new(User)
-	user = &r.Rows[0]
-
-	return user, nil
+	return r, nil
 }
 
 type snipeAgentTransport struct {

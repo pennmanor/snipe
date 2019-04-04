@@ -1,7 +1,6 @@
 package snipe
 
 type Asset struct {
-
 	ID       int    `json:"id"`
 	Name     string `json:"name"`
 	AssetTag string `json:"asset_tag"`
@@ -63,12 +62,12 @@ type Asset struct {
 		Datetime  string `json:"datetime"`
 		Formatted string `json:"formatted"`
 	} `json:"last_checkout"`
-	ExpectedCheckin  interface{}   `json:"expected_checkin"`
-	PurchaseCost     interface{}   `json:"purchase_cost"`
-	CheckinCounter   int           `json:"checkin_counter"`
-	CheckoutCounter  int           `json:"checkout_counter"`
-	RequestsCounter  int           `json:"requests_counter"`
-	UserCanCheckout  bool          `json:"user_can_checkout"`
+	ExpectedCheckin  interface{} `json:"expected_checkin"`
+	PurchaseCost     interface{} `json:"purchase_cost"`
+	CheckinCounter   int         `json:"checkin_counter"`
+	CheckoutCounter  int         `json:"checkout_counter"`
+	RequestsCounter  int         `json:"requests_counter"`
+	UserCanCheckout  bool        `json:"user_can_checkout"`
 	AvailableActions struct {
 		Checkout bool `json:"checkout"`
 		Checkin  bool `json:"checkin"`
@@ -77,7 +76,6 @@ type Asset struct {
 		Update   bool `json:"update"`
 		Delete   bool `json:"delete"`
 	} `json:"available_actions"`
-
 }
 
 type Assets struct {
@@ -85,24 +83,8 @@ type Assets struct {
 	Rows  []Asset `json:"rows"`
 }
 
-type Checkout struct {
-	Status		string	`json:"status"`
-	Messages	string	`json:"messages"`
-	Payload	struct {
-		Asset	string	`json:"asset"`
-	}
-}
-
-type Checkin struct {
-	Status		string	`json:"status"`
-	Messages	string	`json:"messages"`
-	Payload	struct {
-		Asset	string	`json:"asset"`
-	}
-}
-
 type Users struct {
-	Total int     `json:"total"`
+	Total int    `json:"total"`
 	Rows  []User `json:"rows"`
 }
 
@@ -240,149 +222,66 @@ type User struct {
 	Groups interface{} `json:"groups"`
 }
 
-type Activity struct {
-	Total int `json:"total"`
-	Rows  []struct {
-		ID   int         `json:"id"`
-		Icon string      `json:"icon"`
-		File interface{} `json:"file"`
-		Item struct {
-			ID   int    `json:"id"`
-			Name string `json:"name"`
-			Type string `json:"type"`
-		} `json:"item"`
-		Location struct {
-			ID   int    `json:"id"`
-			Name string `json:"name"`
-		} `json:"location"`
-		CreatedAt struct {
-			Datetime  string `json:"datetime"`
-			Formatted string `json:"formatted"`
-		} `json:"created_at"`
-		UpdatedAt struct {
-			Datetime  string `json:"datetime"`
-			Formatted string `json:"formatted"`
-		} `json:"updated_at"`
-		NextAuditDate struct {
-			Date      string `json:"date"`
-			Formatted string `json:"formatted"`
-		} `json:"next_audit_date"`
-		DaysToNextAudit int    `json:"days_to_next_audit"`
-		ActionType      string `json:"action_type"`
-		Admin           struct {
-			ID        int    `json:"id"`
-			Name      string `json:"name"`
-			FirstName string `json:"first_name"`
-			LastName  string `json:"last_name"`
-		} `json:"admin"`
-		Target struct {
-			ID   int    `json:"id"`
-			Name string `json:"name"`
-			Type string `json:"type"`
-		} `json:"target"`
-		Note          interface{} `json:"note"`
-		SignatureFile interface{} `json:"signature_file"`
-		LogMeta       interface{} `json:"log_meta"`
-	} `json:"rows"`
+type Checkout struct {
+	Status   string `json:"status"`
+	Messages string `json:"messages"`
+	Payload  struct {
+		Asset string `json:"asset"`
+	}
 }
 
-type AssetList struct {
-	Total int `json:"total"`
-	Rows  []struct {
-		ID       int    `json:"id"`
-		Name     string `json:"name"`
-		AssetTag string `json:"asset_tag"`
-		Serial   string `json:"serial"`
-		Model    struct {
-			ID   int    `json:"id"`
-			Name string `json:"name"`
-		} `json:"model"`
-		ModelNumber string      `json:"model_number"`
-		Eol         interface{} `json:"eol"`
-		StatusLabel struct {
-			ID         int    `json:"id"`
-			Name       string `json:"name"`
-			StatusType string `json:"status_type"`
-			StatusMeta string `json:"status_meta"`
-		} `json:"status_label"`
-		Category struct {
-			ID   int    `json:"id"`
-			Name string `json:"name"`
-		} `json:"category"`
-		Manufacturer struct {
-			ID   int    `json:"id"`
-			Name string `json:"name"`
-		} `json:"manufacturer"`
-		Supplier    interface{} `json:"supplier"`
-		Notes       interface{} `json:"notes"`
-		OrderNumber interface{} `json:"order_number"`
-		Company     struct {
-			ID   int    `json:"id"`
-			Name string `json:"name"`
-		} `json:"company"`
-		Location struct {
-			ID   int    `json:"id"`
-			Name string `json:"name"`
-		} `json:"location"`
-		RtdLocation struct {
-			ID   int    `json:"id"`
-			Name string `json:"name"`
-		} `json:"rtd_location"`
-		Image           interface{} `json:"image"`
-		AssignedTo      interface{} `json:"assigned_to"`
-		WarrantyMonths  interface{} `json:"warranty_months"`
-		WarrantyExpires interface{} `json:"warranty_expires"`
-		CreatedAt       struct {
-			Datetime  string `json:"datetime"`
-			Formatted string `json:"formatted"`
-		} `json:"created_at"`
-		UpdatedAt struct {
-			Datetime  string `json:"datetime"`
-			Formatted string `json:"formatted"`
-		} `json:"updated_at"`
-		LastAuditDate interface{} `json:"last_audit_date"`
-		NextAuditDate interface{} `json:"next_audit_date"`
-		DeletedAt     interface{} `json:"deleted_at"`
-		PurchaseDate  interface{} `json:"purchase_date"`
-		LastCheckout  struct {
-			Datetime  string `json:"datetime"`
-			Formatted string `json:"formatted"`
-		} `json:"last_checkout"`
-		ExpectedCheckin interface{} `json:"expected_checkin"`
-		PurchaseCost    interface{} `json:"purchase_cost"`
-		CheckinCounter  int         `json:"checkin_counter"`
-		CheckoutCounter int         `json:"checkout_counter"`
-		RequestsCounter int         `json:"requests_counter"`
-		UserCanCheckout bool        `json:"user_can_checkout"`
-		CustomFields    struct {
-			EthernetMAC struct {
-				Field       string `json:"field"`
-				Value       string `json:"value"`
-				FieldFormat string `json:"field_format"`
-			} `json:"Ethernet MAC"`
-			WirelessMAC struct {
-				Field       string `json:"field"`
-				Value       string `json:"value"`
-				FieldFormat string `json:"field_format"`
-			} `json:"Wireless MAC"`
-			PuppetRole struct {
-				Field       string      `json:"field"`
-				Value       interface{} `json:"value"`
-				FieldFormat string      `json:"field_format"`
-			} `json:"puppet_role"`
-			PuppetEnvionment struct {
-				Field       string      `json:"field"`
-				Value       interface{} `json:"value"`
-				FieldFormat string      `json:"field_format"`
-			} `json:"puppet_envionment"`
-		} `json:"custom_fields"`
-		AvailableActions struct {
-			Checkout bool `json:"checkout"`
-			Checkin  bool `json:"checkin"`
-			Clone    bool `json:"clone"`
-			Restore  bool `json:"restore"`
-			Update   bool `json:"update"`
-			Delete   bool `json:"delete"`
-		} `json:"available_actions"`
-	} `json:"rows"`
+type Checkin struct {
+	Status   string `json:"status"`
+	Messages string `json:"messages"`
+	Payload  struct {
+		Asset string `json:"asset"`
+	}
+}
+
+type Activities struct {
+	Total int        `json:"total"`
+	Rows  []Activity `json:"rows"`
+}
+
+type Activity struct {
+	ID   int         `json:"id"`
+	Icon string      `json:"icon"`
+	File interface{} `json:"file"`
+	Item struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+		Type string `json:"type"`
+	} `json:"item"`
+	Location struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"location"`
+	CreatedAt struct {
+		Datetime  string `json:"datetime"`
+		Formatted string `json:"formatted"`
+	} `json:"created_at"`
+	UpdatedAt struct {
+		Datetime  string `json:"datetime"`
+		Formatted string `json:"formatted"`
+	} `json:"updated_at"`
+	NextAuditDate struct {
+		Date      string `json:"date"`
+		Formatted string `json:"formatted"`
+	} `json:"next_audit_date"`
+	DaysToNextAudit int    `json:"days_to_next_audit"`
+	ActionType      string `json:"action_type"`
+	Admin           struct {
+		ID        int    `json:"id"`
+		Name      string `json:"name"`
+		FirstName string `json:"first_name"`
+		LastName  string `json:"last_name"`
+	} `json:"admin"`
+	Target struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+		Type string `json:"type"`
+	} `json:"target"`
+	Note          interface{} `json:"note"`
+	SignatureFile interface{} `json:"signature_file"`
+	LogMeta       interface{} `json:"log_meta"`
 }
