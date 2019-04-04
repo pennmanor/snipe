@@ -51,7 +51,7 @@ func makeQueryFromMap(params map[string]string) string {
 
 func makeQueryFromString(text string) string {
 
-        textWords := strings.Fields(text)
+	textWords := strings.Fields(text)
 
 	for i, word := range textWords {
 		textWords[i] = url.QueryEscape(word)
@@ -157,8 +157,8 @@ func (s *Snipe) GetAssetByTag(assetTag string) (*Asset, error) {
 	return r, nil
 }
 
-func (s *Snipe) GetUserHistory(itemID int) (*Activity, error) {
-	var r = new(Activity)
+func (s *Snipe) GetUserHistory(itemID int) (*Activities, error) {
+	var r = new(Activities)
 
 	url := fmt.Sprintf("%+v/api/v1/reports/activity?target_id=%+v&target_type=user", s.Server, itemID)
 
@@ -175,8 +175,8 @@ func (s *Snipe) GetUserHistory(itemID int) (*Activity, error) {
 	return r, nil
 }
 
-func (s *Snipe) GetAssetHistory(itemID int) (*Activity, error) {
-	var r = new(Activity)
+func (s *Snipe) GetAssetHistory(itemID int) (*Activities, error) {
+	var r = new(Activities)
 
 	url := fmt.Sprintf("%+v/api/v1/reports/activity?item_id=%+v&item_type=asset", s.Server, itemID)
 
