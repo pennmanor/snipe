@@ -346,6 +346,25 @@ func (s *Snipe) GetUser(userID int) (*User, error) {
 	return r, nil
 }
 
+func (s *Snipe) GetLocations() (*Locations, error) {
+
+	var r = new(Locations)
+
+	url := fmt.Sprintf("%+v/api/v1/locations", s.Server)
+
+	req, _ := http.NewRequest("GET", url, nil)
+	resp, err := s.Client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.NewDecoder(resp.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
 type snipeAgentTransport struct {
 	apikey string
 	base   http.RoundTripper
