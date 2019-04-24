@@ -68,6 +68,7 @@ type Asset struct {
 	CheckoutCounter  int         `json:"checkout_counter"`
 	RequestsCounter  int         `json:"requests_counter"`
 	UserCanCheckout  bool        `json:"user_can_checkout"`
+	CustomFields     interface{} `json:"custom_fields"`
 	AvailableActions struct {
 		Checkout bool `json:"checkout"`
 		Checkin  bool `json:"checkin"`
@@ -284,4 +285,40 @@ type Activity struct {
 	Note          interface{} `json:"note"`
 	SignatureFile interface{} `json:"signature_file"`
 	LogMeta       interface{} `json:"log_meta"`
+}
+
+type Locations struct {
+	Total int        `json:"total"`
+	Rows  []Location `json:"rows"`
+}
+
+type Location struct {
+	ID                  int         `json:"id"`
+	Name                string      `json:"name"`
+	Image               interface{} `json:"image"`
+	Address             interface{} `json:"address"`
+	Address2            interface{} `json:"address2"`
+	City                interface{} `json:"city"`
+	State               interface{} `json:"state"`
+	Country             interface{} `json:"country"`
+	Zip                 interface{} `json:"zip"`
+	AssignedAssetsCount int         `json:"assigned_assets_count"`
+	AssetsCount         int         `json:"assets_count"`
+	UsersCount          int         `json:"users_count"`
+	Currency            interface{} `json:"currency"`
+	CreatedAt           struct {
+		Datetime  string `json:"datetime"`
+		Formatted string `json:"formatted"`
+	} `json:"created_at"`
+	UpdatedAt struct {
+		Datetime  string `json:"datetime"`
+		Formatted string `json:"formatted"`
+	} `json:"updated_at"`
+	Parent           interface{}   `json:"parent"`
+	Manager          interface{}   `json:"manager"`
+	Children         []interface{} `json:"children"`
+	AvailableActions struct {
+		Update bool `json:"update"`
+		Delete bool `json:"delete"`
+	} `json:"available_actions"`
 }
