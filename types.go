@@ -220,7 +220,15 @@ type User struct {
 		Clone   bool `json:"clone"`
 		Restore bool `json:"restore"`
 	} `json:"available_actions"`
-	Groups interface{} `json:"groups"`
+	Groups struct {
+		Total int     `json:"total"`
+		Rows  []Group `json:"rows"`
+	} `json:"groups"`
+}
+
+type Group struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
 }
 
 type Checkout struct {
