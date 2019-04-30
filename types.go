@@ -322,3 +322,50 @@ type Location struct {
 		Delete bool `json:"delete"`
 	} `json:"available_actions"`
 }
+
+type Update struct {
+	Status   string `json:"status"`
+	Messages string `json:"messages"`
+	Payload  struct {
+		ID                        int         `json:"id"`
+		Name                      string      `json:"name"`
+		AssetTag                  string      `json:"asset_tag"`
+		ModelID                   int         `json:"model_id"`
+		Serial                    string      `json:"serial"`
+		PurchaseDate              interface{} `json:"purchase_date"`
+		PurchaseCost              interface{} `json:"purchase_cost"`
+		OrderNumber               string      `json:"order_number"`
+		AssignedTo                interface{} `json:"assigned_to"`
+		Notes                     string      `json:"notes"`
+		Image                     interface{} `json:"image"`
+		UserID                    interface{} `json:"user_id"`
+		CreatedAt                 string      `json:"created_at"`
+		UpdatedAt                 string      `json:"updated_at"`
+		Physical                  int         `json:"physical"`
+		DeletedAt                 interface{} `json:"deleted_at"`
+		StatusID                  int         `json:"status_id"`
+		Archived                  int         `json:"archived"`
+		WarrantyMonths            interface{} `json:"warranty_months"`
+		Depreciate                interface{} `json:"depreciate"`
+		SupplierID                interface{} `json:"supplier_id"`
+		Requestable               int         `json:"requestable"`
+		RtdLocationID             interface{} `json:"rtd_location_id"`
+		SnipeitEthernetMac1       string      `json:"_snipeit_ethernet_mac_1"`
+		Accepted                  interface{} `json:"accepted"`
+		LastCheckout              interface{} `json:"last_checkout"`
+		ExpectedCheckin           interface{} `json:"expected_checkin"`
+		CompanyID                 int         `json:"company_id"`
+		AssignedType              interface{} `json:"assigned_type"`
+		LastAuditDate             string      `json:"last_audit_date"`
+		NextAuditDate             string      `json:"next_audit_date"`
+		LocationID                interface{} `json:"location_id"`
+		CheckinCounter            int         `json:"checkin_counter"`
+		CheckoutCounter           int         `json:"checkout_counter"`
+		RequestsCounter           int         `json:"requests_counter"`
+		SnipeitWirelessMac2       string      `json:"_snipeit_wireless_mac_2"`
+		SnipeitPuppetRole3        string      `json:"_snipeit_puppet_role_3"`
+		SnipeitPuppetEnvironment4 string      `json:"_snipeit_puppet_environment_4"`
+		SnipeitDrcOu5             interface{} `json:"_snipeit_drc_ou_5"`
+		SnipeitLoanerNumber6      interface{} `json:"_snipeit_loaner_number_6"`
+	} `json:"payload"`
+}
