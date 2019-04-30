@@ -1,6 +1,7 @@
 package snipe
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -357,6 +358,53 @@ func (s *Snipe) GetLocations() (*Locations, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	err = json.NewDecoder(resp.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
+func (s *Snipe) UpdateCustomField(assetID int, fieldName string, value string) (*Update, error) {
+
+	var r = new(Update)
+
+	// get the field name
+	var a = new(Asset)
+
+	url := fmt.Sprintf("%v/api/v1/hardware/%v", s.Server, assetID)
+
+	req, _ := http.NewRequest("GET", url, nil)
+	resp, err := s.Client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.NewDecoder(resp.Body).Decode(a)
+	if err != nil {
+		return nil, err
+	}
+
+	cfinternalmap := a.CustomFields.(map[string]interface{})
+	fieldMap := cfinternalmap[fieldName].(map[string]interface{})
+	fieldDBName, ok := fieldMap["field"].(string)
+	if !ok { // ok is false if there is no value for field
+		return nil, fmt.Errorf("Could not get the field name")
+	}
+
+	// create the json for the request
+	jsonString := []byte(fmt.Sprintf(`{"%v":"%v"}`, fieldDBName, value))
+
+	url = fmt.Sprintf("%v/api/v1/hardware/%v", s.Server, assetID)
+
+	req, _ = http.NewRequest("PUT", url, bytes.NewBuffer(jsonString))
+	req.Header.Set("Content-Type", "application/json")
+	resp, err = s.Client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
 	err = json.NewDecoder(resp.Body).Decode(r)
 	if err != nil {
 		return nil, err
