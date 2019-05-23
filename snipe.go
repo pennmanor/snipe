@@ -3,6 +3,7 @@ package snipe
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -411,6 +412,40 @@ func (s *Snipe) UpdateCustomField(assetID int, fieldName string, value string) (
 	}
 
 	return r, nil
+}
+
+func (s *Snipe) PatchUser(userID int, fields map[string]interface{}) (*User, error) {
+
+	r := UserPatch{}
+
+	url := fmt.Sprintf("%+v/api/v1/users/%v", s.Server, userID)
+
+	body, err := json.Marshal(fields)
+	if err != nil {
+		return nil, err
+	}
+
+	br := bytes.NewBuffer(body)
+
+	req, err := http.NewRequest("PATCH", url, br)
+	req.Header.Add("Content-Type", "application/json")
+
+	resp, err := s.Client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	err = json.NewDecoder(resp.Body).Decode(&r)
+	if err != nil {
+		return nil, err
+	}
+
+	if r.Status != "success" {
+		return nil, errors.New(r.Status)
+	}
+
+	return &r.User, nil
 }
 
 type snipeAgentTransport struct {

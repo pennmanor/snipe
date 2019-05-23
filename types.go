@@ -377,3 +377,9 @@ type Update struct {
 		SnipeitLoanerNumber6      interface{} `json:"_snipeit_loaner_number_6"`
 	} `json:"payload"`
 }
+
+type UserPatch struct {
+	Status   string `json:"status"`
+	Messages string `json:"messages"`
+	User     User   `json:"payload"`
+}
