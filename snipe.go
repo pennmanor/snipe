@@ -195,6 +195,38 @@ func (s *Snipe) GetAssetHistory(itemID int) (*Activities, error) {
 	return r, nil
 }
 
+func (s *Snipe) GetAllActivity(params AssetQueryParams) (*Activities, error) {
+	qp := makeQueryFromMap(params)
+
+	_, limitSet := params["limit"]
+	if !limitSet {
+		params["limit"] = defaultLimit
+		qp = makeQueryFromMap(params)
+	}
+
+	_, offsetSet := params["offset"]
+	if !offsetSet {
+		params["offset"] = "0"
+		qp = makeQueryFromMap(params)
+	}
+
+	var r = new(Activities)
+
+	url := fmt.Sprintf("%+v/api/v1/reports/activity?%v", s.Server, qp)
+
+	req, _ := http.NewRequest("GET", url, nil)
+	resp, err := s.Client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.NewDecoder(resp.Body).Decode(r)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
 func (s *Snipe) GetUserCurrentAssets(userID int) (*Assets, error) {
 	var r = new(Assets)
 
